@@ -71,9 +71,13 @@
 <img width="1820" height="855" alt="螢幕擷取畫面 2026-01-29 153429" src="https://github.com/user-attachments/assets/7fbfa736-61e3-4227-bb33-4a6447ae1fda" />
 ### 🔗 專案在線演示 (Live Demo)
 
-![RFM 客戶分群特徵圖](rfm_snake_plot.png)
+<a href="rfm_snake_plot.png" target="_blank">
+  <img src="rfm_snake_plot.png" alt="RFM 客戶分群特徵圖" width="600px">
+</a>
 
-👉 [點此開啟：客戶分群互動式 3D 報告](https://bkf3bibi.github.io/Retail-Customer-Segmentation-RFM/customer_3d_report.index.html)
+<p>👆 點擊上方圖片可開啟大圖</p>
+
+👉 [點此開啟：客戶分群互動式 3D 報告](https://bkf3bibi.github.io/Retail-Customer-Segmentation-RFM/customer_3d_report.html)
 
 
 -----
