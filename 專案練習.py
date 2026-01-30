@@ -45,18 +45,14 @@ try:
     rfm['Cluster'] = kmeans.fit_predict(rfm_scaled)
     print("✅ 機器學習分群完成！")
 
-    # --- 4. 視覺化：蛇形圖並存成 PNG (用於 GitHub README) ---
+    # --- 4. 視覺化：蛇形圖 (優化存檔格式) ---
     summary_for_legend = rfm.groupby('Cluster').mean().round(1)
     rfm_scaled_df = pd.DataFrame(rfm_scaled, index=rfm.index, columns=['最近消費(R)', '消費頻率(F)', '消費金額(M)'])
     rfm_scaled_df['Cluster'] = rfm['Cluster']
     
-    cluster_labels = {}
-    for i in range(4):
-        cluster_labels[i] = (f"分群 {i}: 均消 ${summary_for_legend.loc[i, 'Monetary']:.0f} | "
-                             f"{summary_for_legend.loc[i, 'Frequency']:.1f}次 | "
-                             f"{summary_for_legend.loc[i, 'Recency']:.0f}天")
-    
+    cluster_labels = {i: f"分群 {i}: 均消 ${summary_for_legend.loc[i, 'Monetary']:.0f} | {summary_for_legend.loc[i, 'Frequency']:.1f}次 | {summary_for_legend.loc[i, 'Recency']:.0f}天" for i in range(4)}
     rfm_scaled_df['分群標籤'] = rfm_scaled_df['Cluster'].map(cluster_labels)
+    
     rfm_melted = pd.melt(rfm_scaled_df.reset_index(), id_vars=[id_col, '分群標籤'], 
                          value_vars=['最近消費(R)', '消費頻率(F)', '消費金額(M)'], 
                          var_name='指標', value_name='標準化數值')
@@ -70,11 +66,12 @@ try:
                 ha="center", fontsize=11, color='darkblue', fontweight='bold')
     plt.tight_layout(rect=[0, 0.05, 0.95, 1]) 
     
+    # 存成圖片供 GitHub README 使用
     plt.savefig(output_png, dpi=300, bbox_inches='tight')
     print(f"📸 蛇形圖圖片已更新：{output_png}")
-    plt.close() # 關閉視窗，讓自動化流程更順暢
+    plt.close() 
 
-    # --- 5. 視覺化：3D 空間圖並存成 HTML (用於 GitHub Pages) ---
+    # --- 5. 視覺化：3D 空間圖 ---
     plot_df = rfm.reset_index()
     plot_df['Cluster_Str'] = plot_df['Cluster'].astype(str)
     fig = px.scatter_3d(
@@ -93,7 +90,7 @@ try:
     pbi_df.to_csv(output_pbi, index=False, encoding='utf-8-sig')
     print(f"📊 Power BI 資料已更新：{output_pbi}")
 
-    print("\n🚀 所有分析檔案已全數產出至專案資料夾！")
+    print("\n🚀 所有分析檔案已產出！請手動上傳 rfm_snake_plot.png 到 GitHub 倉庫。")
 
 except Exception as e:
     print(f"❌ 發生錯誤：{e}")
